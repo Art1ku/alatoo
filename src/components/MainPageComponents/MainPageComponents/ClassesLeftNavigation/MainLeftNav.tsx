@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import classes from './MainLeftNavStyle.module.scss';
+import domain from "@/app/config";
 import Cookies from 'js-cookie';
 
 export default function MainLeftNav({ onSelect }: { onSelect: (status: string) => void }) {
@@ -50,7 +51,7 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
         throw new Error('Отсутствует Refresh Token');
       }
 
-      const response = await fetch('http://localhost:8000/api/v1/refresh', {
+      const response = await fetch(domain+ '/api/v1/refresh', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -100,7 +101,7 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
         return;
       }
 
-      const response = await fetch('http://localhost:8000/api/v1/student', {
+      const response = await fetch(domain+'/api/v1/student', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${accessToken}`,

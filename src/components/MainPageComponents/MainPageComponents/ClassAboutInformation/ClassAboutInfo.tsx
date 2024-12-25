@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import classes from './ClassAboutInfoStyle.module.scss';
 import Header from '@/components/Header/Header';
+import domain from "@/app/config";
 
 interface Student {
   id: string;
@@ -24,7 +25,7 @@ export default function ClassAboutInfo({ selectedItem, token }: ClassAboutInfoPr
         setLoading(true);
         try {
           // Выполняем запрос к API с Bearer токеном в заголовке
-          const response = await fetch('/api/v1/student/', {
+          const response = await fetch(domain + '/api/v1/student/', {
             method: 'GET',
             headers: {
               'Authorization': `Bearer ${token}`, // Bearer токен

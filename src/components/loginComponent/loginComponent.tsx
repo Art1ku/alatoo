@@ -3,6 +3,9 @@ import { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import styles from './loginComponent.module.scss';
 import { useRouter } from 'next/navigation';
+import domain from "@/app/config";
+declare module 'js-cookie';
+
 import Cookies from 'js-cookie';
 
 const LoginComponent = () => {
@@ -27,7 +30,7 @@ const LoginComponent = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:8000/api/v1/token', {
+      const response = await fetch(domain+'/api/v1/auth/token', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
