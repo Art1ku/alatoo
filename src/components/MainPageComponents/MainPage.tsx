@@ -32,7 +32,7 @@ export default function MainPage() {
       <div className="flex h-auto">
         <MainLeftNav onSelect={handleSelectItem} /> {/* Передача функции в MainLeftNav */}
         {/* Передаем оба selectedItem и token в ClassAboutInfo */}
-        <ClassAboutInfo selectedItem={selectedItem} token={token} />
+        <ClassAboutInfo/>
       </div>
     </>
   );

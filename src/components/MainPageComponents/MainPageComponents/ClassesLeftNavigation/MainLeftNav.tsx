@@ -67,8 +67,6 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
         return data.access_token;
       } else {
         alert('Не удалось обновить токен. Пожалуйста, войдите снова.');
-        Cookies.remove('accessToken');
-        Cookies.remove('refreshToken');
         window.location.href = '/login';
         return null;
       }
