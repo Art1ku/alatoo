@@ -1,0 +1,113 @@
+// Переменные цветов
+$primary-color: #d91b1b;        // Красный
+$background-color: #181818;     // Чёрный
+$card-bg: #222222;              // Тёмно-серый/чёрный
+$text-color: #ffffff;           // Белый
+
+.wrapper {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  background-color: $background-color;
+
+  @media (max-width: 1000px) {
+    padding: 0;
+  }
+
+  @media (max-width: 768px) { // Планшеты
+    padding: 0px;
+  }
+
+  @media (max-width: 480px) { // Мобильные устройства
+    padding: 0px;
+  }
+}
+
+.insideWrapper {
+  width: 100%;
+  height: 100%;
+  background-color: $background-color;
+  color: $text-color;
+
+  @media (max-width: 768px) { // Планшеты
+    height: auto; // Контент занимает только необходимую высоту
+  }
+
+  @media (max-width: 480px) { // Мобильные устройства
+    height: auto; // Контент занимает только необходимую высоту
+  }
+}
+
+.insideBorders {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); // 4 равные колонки
+  gap: 20px; // Расстояние между карточками
+  padding: 20px;
+  padding-left: 39vh; // Для отступов, если необходимо
+
+  @media (max-width: 1000px) {
+    grid-template-columns: repeat(3, 1fr); // 3 колонки на планшетах
+    padding-left: 0; // Убираем отступы слева
+  }
+
+  @media (max-width: 768px) { // Небольшие экраны (планшеты и маленькие ноутбуки)
+    grid-template-columns: repeat(2, 1fr); // 2 колонки на планшетах
+    padding-left: 0; // Убираем отступы слева
+  }
+
+  @media (max-width: 480px) { // Мобильные устройства
+    grid-template-columns: 1fr; // 1 колонка на мобильных
+    padding-left: 0; // Убираем отступы слева
+  }
+}
+
+.card {
+  background-color: $card-bg;
+  color: $text-color;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.5);
+  }
+
+  h3 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+  }
+
+  p {
+    margin: 0;
+    font-size: 1rem;
+    color: lighten($text-color, 20%);
+  }
+
+  @media (max-width: 768px) { // Планшеты
+    padding: 15px;  // Увеличиваем отступы внутри карточки
+    h3 {
+      font-size: 1.3rem;  // Уменьшаем размер шрифта заголовка
+    }
+
+    p {
+      font-size: 0.9rem;  // Уменьшаем размер шрифта для планшетов
+    }
+  }
+
+  @media (max-width: 480px) { // Мобильные устройства
+    padding: 12px;  // Уменьшаем отступы внутри карточки
+    h3 {
+      font-size: 1.2rem;  // Еще меньше размер шрифта заголовка
+    }
+
+    p {
+      font-size: 0.85rem;  // Уменьшаем размер шрифта для мобильных устройств
+    }
+  }
+}

@@ -1,0 +1,227 @@
+$primary-color: #d91b1b;       // Красный
+$background-color: #000000;    // Чёрный
+$text-color: #ffffff;          // Белый
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+
+  @media (max-width: 1000px) { // Планшеты
+    width: 100%;
+    padding: 10px;
+  }
+
+  @media (max-width: 480px) { // Мобильные устройства
+    padding: 8px;
+  }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 9;
+  display: none;
+
+  @media (max-width: 1000px) {
+    border-right: 0.5vw solid $primary-color;
+    display: block;
+  }
+
+  @media (max-width: 480px) {
+    border-right: 0.5vw solid $primary-color;
+  }
+}
+
+.navContainer {
+  width: 18%;
+  background-color: $background-color;
+  color: $text-color;
+  height: 100vh;
+  box-shadow: 2px 0 10px rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
+  transform: translateX(0);
+  overflow-y: auto;
+
+  @media (max-width: 1000px) { // Планшеты
+    border-right: 0.5vw solid $primary-color;
+    width: 60%;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+
+    &.open {
+      transform: translateX(0);
+    }
+  }
+
+  @media (max-width: 480px) { // Мобильные устройства
+    width: 75%;
+    font-size: 1rem;
+    padding: 10px;
+  }
+
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: $background-color;
+    border-left: 1px solid $primary-color;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $primary-color;
+    border-radius: 5px;
+    border: 1px solid $background-color;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: lighten($primary-color, 10%);
+  }
+
+  scrollbar-width: thin;
+  scrollbar-color: $primary-color $background-color;
+}
+
+.navList {
+  list-style: none;
+  padding: 20px;
+  margin: 0;
+  padding-top: 5px;
+}
+
+.navItem {
+  padding: 15px 0;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  border-bottom: 1px solid $primary-color;
+
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+.menuButton {
+  display: none;
+  background-color: $background-color;
+  color: $text-color;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  width: 39px;
+  height: 39px;
+  z-index: 11;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  border-radius: 100%;
+  border: red 1px solid;
+
+  @media (max-width: 1000px) { // Планшеты
+    display: block;
+  }
+
+  @media (max-width: 480px) { // Мобильные устройства
+    font-size: 20px;
+    top: 10px;
+    left: 15px;
+  }
+}
+
+.topBlock {
+  width: 100%;
+  height: 70px;
+  background-color: black;
+  border-bottom: 1px solid red;
+  -webkit-clip-path: polygon(0 10%, 100% 0, 100% 90%, 0 100%);
+  clip-path: polygon(0 10%, 100% 0, 100% 90%, 0 100%);
+
+  @media (max-width: 1000px) { // Планшеты
+    height: 60px;
+  }
+
+  @media (max-width: 480px) { // Мобильные устройства
+    height: 50px;
+  }
+}
+
+.topBlockP {
+  font-size: 2vw;
+  padding-top: 15px;
+  padding-left: 15px;
+
+  @media (max-width: 480px) { // Мобильные устройства
+    font-size: 4vw;
+  }
+}
+
+.divider {
+  position: relative;
+  width: 100%;
+  height: 2px;
+  background-color: #000;
+
+  @media (max-width: 480px) { // Мобильные устройства
+    width: 90%; // Уменьшаем ширину для мобильных
+  }
+}
+
+.divider::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 85%;
+  height: 100%;
+  background-color: #d91b1b;
+  transform: skewX(-45deg);
+  transform-origin: 0 0;
+
+  @media (max-width: 480px) { // Мобильные устройства
+    width: 75%; // Уменьшаем ширину разделителя
+  }
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: $background-color;
+  color: $text-color;
+  padding: 20px;
+  border-radius: 10px;
+  z-index: 100;
+
+  @media (max-width: 480px) { // Мобильные устройства
+    width: 80%;
+    padding: 15px;
+  }
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.closeButton {
+  background-color: transparent;
+  color: $text-color;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  &:hover {
+    color: $primary-color;
+  }
+}

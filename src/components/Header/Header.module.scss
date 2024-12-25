@@ -1,0 +1,355 @@
+$primary-color: #d91b1b;
+$background-color: #181818;
+$card-bg: #222222;
+$text-color: #ffffff;
+
+.wrapper {
+  width: 82%;
+  height: 10vh;
+  background-color: black;
+  border-bottom: 0.2vw solid $primary-color;
+  position: sticky;
+  z-index: 6;
+  top: 0;
+  right: 0;
+  margin-left: auto;
+
+  @media (max-width: 1024px) {
+    height: 10vh;
+    width: 100%;
+    border-bottom: 0.2vw solid $primary-color;
+  }
+
+  @media (max-width: 768px) {
+    height: 10vh;
+    width: 100%;
+    border-bottom: 0.2vw solid $primary-color;
+  }
+
+  @media (max-width: 480px) {
+    height: 10vh;
+    padding: 0 10px;
+  }
+
+  /* После ширины экрана 1024px делаем wrapper на 100% */
+  @media (min-width: 1024px) {
+    width: 100%;
+  }
+}
+
+.insideWrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: black;
+  padding-left: 35vh;
+
+
+  @media (max-width: 1024px) {
+    flex-direction: column;
+    height: auto;
+    align-items: center;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    height: auto;
+    align-items: center;
+  }
+}
+
+.logoWrapper {
+  width: 22%;
+  height: 100%;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+
+  .logos {
+    width: 50px;
+    height: 50px;
+    position: relative;
+
+    .logo {
+      width: 50px;
+      height: 50px;
+      background: url("./assets/logo.svg");
+      background-position: center;
+      background-size: contain;
+      background-repeat: no-repeat;
+      position: absolute;
+      top: 0;
+      z-index: 50;
+    }
+
+    .logoBack {
+      position: absolute;
+      width: 85%;
+      height: 85%;
+      background-color: white;
+      z-index: 1;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  .logoPWrapper {
+    padding-left: 10px;
+
+    .logoP1,
+    .logoP2 {
+      color: white;
+      font-family: Speeder;
+      font-size: 1.2vw;
+
+      @media (max-width: 1024px) {  
+        font-size: 4vw;
+      }
+
+      @media (max-width: 768px) {
+        font-size: 5vw;
+      }
+
+      @media (max-width: 480px) {
+        font-size: 6vw;
+      }
+    }
+
+    .logoP2 {
+      margin-left: 20px;
+    }
+  }
+
+
+  @media (max-width: 1224px) {
+
+    width: 0;
+    display: none;
+  }
+
+
+  @media (max-width: 1024px) {
+
+    width: 0;
+    display: none;
+  }
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: center;
+    padding: 0;
+    display: none;
+  }
+}
+
+.divider {
+  width: 8%;
+  height: 100%;
+  background: black;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.headerNav {
+  width: 70%;
+  padding-right: 20px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 0;
+  }
+}
+
+.userWrapper {
+  width: 220px;
+  height: 50px;
+  background-color: $background-color;
+  margin-left: auto;
+  border-radius: 50px;
+  position: relative;
+  padding-left: 60px;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    width: 180px;
+    padding-left: 40px;
+  }
+
+  @media (max-width: 480px) {
+    width: 160px;
+    padding-left: 30px;
+  }
+
+  &:hover .dropdownMenu {
+    display: block;
+  }
+}
+
+.avatar {
+  width: 42px;
+  height: 42px;
+  background-color: $card-bg;
+  border-radius: 100%;
+  position: absolute;
+  top: 9%;
+  left: 2.6%;
+}
+
+.avatarImage {
+  width: 33px;
+  height: 33px;
+  background-image: url("./assets/avatar.svg");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 50%;
+  left: 49%;
+  transform: translate(-50%, -50%);
+}
+
+.userName {
+  color: $text-color;
+  position: absolute;
+  top: 25%;
+}
+
+.dropdownMenu {
+  position: absolute;
+  top: 79px;
+  right: 0;
+  background-color: $background-color;
+  border: 1px solid $primary-color;
+  border-right: 0;
+  border-radius: 8px;
+  padding: 10px;
+  width: 200px;
+  z-index: 10;
+  display: block;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  padding-left: 20px;
+
+  @media (max-width: 768px) {
+    width: 180px;
+    top: 60px;
+  }
+
+  @media (max-width: 480px) {
+    width: 160px;
+    top: 50px;
+  }
+}
+
+.buttonP {
+  color: #ffffff;
+}
+
+
+@media (max-width: 768px) {
+  .wrapper {
+    height: 10vh;
+    border-bottom: 0.2vw solid $primary-color;
+    width: 100%;
+  }
+
+  .insideWrapper {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+  }
+
+  .logoWrapper {
+    width: 100%;
+    justify-content: center;
+    padding: 0;
+    display: none;
+  }
+
+  .divider {
+    display: none;
+  }
+
+  .headerNav {
+    width: 100%;
+    padding-right: 10px;
+    padding-top: 5px;
+  }
+
+  .userWrapper {
+    width: 180px;
+    padding-left: 40px;
+    .avatar {
+      width: 40px;
+      height: 40px;
+    }
+    .userName {
+      top: 28%;
+      right: 7%;
+    }
+  }
+
+  .avatar {
+    width: 36px;
+    height: 36px;
+  }
+
+  .avatarImage {
+    width: 30px;
+    height: 30px;
+  }
+
+  .userName {
+    font-size: 14px;
+    top: 20%;
+  }
+
+  .dropdownMenu {
+    width: 180px;
+    top: 60px;
+  }
+
+  .logoP1,
+  .logoP2 {
+    color: white;
+    font-family: Speeder;
+    font-size: 0.5vw;
+
+    @media (max-width: 768px) {
+      font-size: 0.4vw;
+    }
+  }
+
+  .logoP2 {
+    margin-left: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .wrapper {
+    height: 10vh;
+    padding: 0 10px;
+  }
+
+  .userWrapper {
+    width: 160px;
+    padding-left: 30px;
+  }
+
+  .dropdownMenu {
+    width: 160px;
+    top: 50px;
+  }
+
+  .userName {
+    font-size: 12px;
+    top: 20%;
+  }
+}

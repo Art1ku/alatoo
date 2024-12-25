@@ -1,0 +1,43 @@
+[
+    {
+      "id": "1",
+      "full_name": "Иван Иванов",
+      "validated": true
+    },
+    {
+      "id": "2",
+      "full_name": "Мария Смирнова",
+      "validated": false
+    },
+    {
+      "id": "3",
+      "full_name": "Петр Петров",
+      "validated": true
+    },
+    {
+      "id": "4",
+      "full_name": "Анна Кузнецова",
+      "validated": false
+    },
+    {
+      "id": "5",
+      "full_name": "Сергей Васильев",
+      "validated": true
+    },
+    {
+      "id": "6",
+      "full_name": "Екатерина Новикова",
+      "validated": false
+    },
+    {
+      "id": "7",
+      "full_name": "Дмитрий Павлов",
+      "validated": true
+    },
+    {
+      "id": "8",
+      "full_name": "Ольга Соколова",
+      "validated": true
+    }
+  ]
+  
