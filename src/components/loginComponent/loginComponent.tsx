@@ -41,11 +41,11 @@ const LoginComponent = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // Сохраняем токены в localStorage
+
         localStorage.setItem('accessToken', data.access_token);
         localStorage.setItem('refreshToken', data.refresh_token);
 
-        router.push('/'); // Перенаправление на главную страницу
+        router.push('/');
       } else {
         alert('Неверные данные для входа');
       }
