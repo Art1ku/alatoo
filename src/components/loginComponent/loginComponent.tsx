@@ -42,9 +42,15 @@ const LoginComponent = () => {
       const data = await response.json();
 
       if (response.ok) {
-        // Сохранение токенов в cookies
-        Cookies.set('accessToken', data.access_token, { expires: 1 }); // Токен будет храниться 1 день
-        Cookies.set('refreshToken', data.refresh_token, { expires: 7 }); // Refresh токен будет храниться 7 дней
+        // Simulate checking if password is part of a data breach
+        if (data.isPasswordCompromised) {
+          alert('Your password has been compromised in a data breach. Please reset your password.');
+          return;
+        }
+
+        // Save tokens in cookies
+        Cookies.set('accessToken', data.access_token, { expires: 1 }); // Token will last 1 day
+        Cookies.set('refreshToken', data.refresh_token, { expires: 7 }); // Refresh token will last 7 days
 
         router.push('/');
       } else {
@@ -60,7 +66,7 @@ const LoginComponent = () => {
 
   const refreshAccessToken = async () => {
     try {
-      const refreshToken = Cookies.get('refreshToken'); // Получаем refreshToken из cookies
+      const refreshToken = Cookies.get('refreshToken'); // Get refreshToken from cookies
 
       if (!refreshToken) {
         throw new Error('Отсутствует Refresh Token');
@@ -80,11 +86,11 @@ const LoginComponent = () => {
         Cookies.set('accessToken', data.access_token, { expires: 1 });
       } else {
         alert('Не удалось обновить токен. Пожалуйста, войдите снова.');
-        router.push('/login'); // Перенаправление на страницу входа
+        router.push('/login'); // Redirect to login page
       }
     } catch (error) {
       console.error('Ошибка обновления токена:', error);
-      router.push('/login'); // Перенаправление на страницу входа
+      router.push('/login'); // Redirect to login page
     }
   };
 
@@ -120,7 +126,6 @@ const LoginComponent = () => {
 };
 
 export default LoginComponent;
-
 
 
 
