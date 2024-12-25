@@ -1,8 +1,12 @@
 'use client';
+
 import { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import styles from './loginComponent.module.scss';
 import { useRouter } from 'next/navigation';
+import Cookies from 'js-cookie'; // Импортируем js-cookie
+declare module 'js-cookie';
+
 
 const LoginComponent = () => {
   const [username, setUsername] = useState('');
@@ -41,9 +45,24 @@ const LoginComponent = () => {
       const data = await response.json();
 
       if (response.ok) {
+        // Сохраняем токены в cookies с помощью js-cookie
+        const { access_token, refresh_token } = data;
 
-        localStorage.setItem('accessToken', data.access_token);
-        localStorage.setItem('refreshToken', data.refresh_token);
+        Cookies.set('accessToken', access_token, { 
+          httpOnly: true, 
+          secure: true, 
+          sameSite: 'strict', 
+          path: '/',
+          maxAge: 3600 // 1 час для access token
+        });
+
+        Cookies.set('refreshToken', refresh_token, { 
+          httpOnly: true, 
+          secure: true, 
+          sameSite: 'strict', 
+          path: '/',
+          maxAge: 7 * 24 * 60 * 60 // 7 дней для refresh token
+        });
 
         router.push('/');
       } else {
@@ -59,7 +78,7 @@ const LoginComponent = () => {
 
   const refreshAccessToken = async () => {
     try {
-      const refreshToken = localStorage.getItem('refreshToken');
+      const refreshToken = Cookies.get('refreshToken');
 
       if (!refreshToken) {
         throw new Error('Отсутствует Refresh Token');
@@ -70,20 +89,27 @@ const LoginComponent = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ refresh_token: refreshToken }), // Передаем refresh_token в теле запроса
+        body: JSON.stringify({ refresh_token: refreshToken }),
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('accessToken', data.access_token);
+        // Обновляем access token
+        Cookies.set('accessToken', data.access_token, { 
+          httpOnly: true, 
+          secure: true, 
+          sameSite: 'strict', 
+          path: '/',
+          maxAge: 3600 // 1 час
+        });
       } else {
         alert('Не удалось обновить токен. Пожалуйста, войдите снова.');
-        router.push('/login'); // Перенаправление на страницу входа
+        router.push('/login');
       }
     } catch (error) {
       console.error('Ошибка обновления токена:', error);
-      router.push('/login'); // Перенаправление на страницу входа
+      router.push('/login');
     }
   };
 
@@ -119,38 +145,6 @@ const LoginComponent = () => {
 };
 
 export default LoginComponent;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

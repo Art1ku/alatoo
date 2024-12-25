@@ -13,12 +13,14 @@
     "axios": "^1.7.8",
     "face-api.js": "^0.22.2",
     "gsap": "^3.12.5",
+    "js-cookie": "^3.0.5",
     "next": "15.0.3",
     "react": "19.0.0-rc-66855b96-20241106",
     "react-dom": "19.0.0-rc-66855b96-20241106",
     "sass": "^1.81.0"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
