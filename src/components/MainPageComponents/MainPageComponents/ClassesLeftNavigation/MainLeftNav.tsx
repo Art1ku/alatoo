@@ -51,7 +51,7 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
         throw new Error('Отсутствует Refresh Token');
       }
 
-      const response = await fetch(domain+ '/api/v1/refresh', {
+      const response = await fetch(domain + '/api/v1/refresh', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -101,7 +101,7 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
         return;
       }
 
-      const response = await fetch(domain+'/api/v1/student', {
+      const response = await fetch(domain + '/api/v1/student', {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -109,11 +109,30 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
         body: formData,
       });
 
-      if (!response.ok) throw new Error('Ошибка загрузки изображения');
-
-      const data = await response.json();
-      setStudentData(data);
-      setModalData('Информация о студенте');
+      if (!response.ok) {
+        // Попробуем обновить токен и повторить запрос, если он не успешен
+        const newAccessToken = await refreshAccessToken();
+        if (newAccessToken) {
+          const retryResponse = await fetch(domain + '/api/v1/student', {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${newAccessToken}`,
+            },
+            body: formData,
+          });
+          if (retryResponse.ok) {
+            const data = await retryResponse.json();
+            setStudentData(data);
+            setModalData('Информация о студенте');
+          } else {
+            throw new Error('Ошибка загрузки изображения после обновления токена');
+          }
+        }
+      } else {
+        const data = await response.json();
+        setStudentData(data);
+        setModalData('Информация о студенте');
+      }
     } catch (error) {
       console.error('Ошибка:', error);
       alert('Не удалось найти студента');
@@ -182,7 +201,7 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
               <strong>ID:</strong> {studentData.id}
             </p>
             <p>
-              <strong>ФИО:</strong> {studentData.full_name}
+              <strong>Exam ID:</strong> {studentData.exam_id}
             </p>
             <p>
               <strong>Статус:</strong> {studentData.validated ? 'Потверждён' : 'Не потверждён'}
