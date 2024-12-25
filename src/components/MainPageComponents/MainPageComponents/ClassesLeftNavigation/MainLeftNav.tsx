@@ -53,12 +53,12 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
         throw new Error('Отсутствует Refresh Token');
       }
 
-      const response = await fetch(domain + '/api/v1/refresh', {
+      const response = await fetch(domain + '/api/v1/auth/refresh', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ refresh_token: refreshToken }),
+        body: JSON.stringify(refreshToken),
       });
 
       const data = await response.json();
@@ -238,10 +238,7 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
             </button>
             <h2>{modalData}</h2>
             <p>
-              <strong>ID:</strong> {studentData.id}
-            </p>
-            <p>
-              <strong>Exam ID:</strong> {studentData.exam_id}
+              <strong>ID:</strong> {studentData.exam_id}
             </p>
             <p>
               <strong>Статус:</strong> {studentData.validated ? 'Потверждён' : 'Не потверждён'}
