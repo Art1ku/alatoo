@@ -50,7 +50,7 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
     formData.append('photo', file);
 
     try {
-      const response = await fetch('/api/v1/student/', {
+      const response = await fetch('http://localhost:8000/api/v1/student', {
         method: 'POST',
         body: formData,
       });
