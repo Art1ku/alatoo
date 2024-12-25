@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import classes from './MainLeftNavStyle.module.scss';
+import Cookies from 'js-cookie';
 
 export default function MainLeftNav({ onSelect }: { onSelect: (status: string) => void }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -44,7 +45,7 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
 
   const refreshAccessToken = async () => {
     try {
-      const refreshToken = localStorage.getItem('refreshToken');
+      const refreshToken = Cookies.get('refreshToken'); // Используем cookies для получения refreshToken
       if (!refreshToken) {
         throw new Error('Отсутствует Refresh Token');
       }
@@ -60,12 +61,12 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('accessToken', data.access_token);
+        Cookies.set('accessToken', data.access_token, { expires: 1 }); // Сохраняем новый accessToken в cookies
         return data.access_token;
       } else {
         alert('Не удалось обновить токен. Пожалуйста, войдите снова.');
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('refreshToken');
+        Cookies.remove('accessToken');
+        Cookies.remove('refreshToken');
         window.location.href = '/login';
         return null;
       }
@@ -77,7 +78,7 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
   };
 
   const getAccessToken = async () => {
-    let token = localStorage.getItem('accessToken');
+    let token = Cookies.get('accessToken'); // Получаем accessToken из cookies
     if (!token) {
       token = await refreshAccessToken();
     }
