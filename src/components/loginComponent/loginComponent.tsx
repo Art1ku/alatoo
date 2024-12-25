@@ -4,7 +4,6 @@ import { gsap } from 'gsap';
 import styles from './loginComponent.module.scss';
 import { useRouter } from 'next/navigation';
 import domain from "@/app/config";
-import Cookies from 'js-cookie'; // Импортируем js-cookie
 declare module 'js-cookie';
 
 import Cookies from 'js-cookie';
