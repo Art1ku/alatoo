@@ -47,7 +47,7 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
 
   const refreshAccessToken = async () => {
     try {
-      const refreshToken = Cookies.get('refreshToken'); // Используем cookies для получения refreshToken
+      const refreshToken = Cookies.get('refreshToken');
       if (!refreshToken) {
         throw new Error('Отсутствует Refresh Token');
       }
@@ -63,7 +63,7 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
       const data = await response.json();
 
       if (response.ok) {
-        Cookies.set('accessToken', data.access_token, { expires: 1 }); // Сохраняем новый accessToken в cookies
+        Cookies.set('accessToken', data.access_token, { expires: 1 });
         return data.access_token;
       } else {
         alert('Не удалось обновить токен. Пожалуйста, войдите снова.');
@@ -80,7 +80,7 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
   };
 
   const getAccessToken = async () => {
-    let token = Cookies.get('accessToken'); // Получаем accessToken из cookies
+    let token = Cookies.get('accessToken');
     if (!token) {
       token = await refreshAccessToken();
     }
@@ -91,9 +91,8 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
     if (!event.target.files || event.target.files.length === 0) return;
 
     const files = Array.from(event.target.files);
-    setSelectedFiles((prevFiles) => [...prevFiles, ...files]); // Добавляем выбранные файлы в массив
+    setSelectedFiles((prevFiles) => [...prevFiles, ...files]);
 
-    // Обрабатываем все файлы по очереди
     for (const file of files) {
       const formData = new FormData();
       formData.append('photo', file);
@@ -115,7 +114,6 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
         });
 
         if (!response.ok) {
-          // Попробуем обновить токен и повторить запрос, если он не успешен
           const newAccessToken = await refreshAccessToken();
           if (newAccessToken) {
             const retryResponse = await fetch(domain + '/api/v1/student', {
@@ -147,11 +145,10 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
 
   const handleMenuClick = (status: string) => {
     if (status === 'find_student') {
-      // Открыть файловый input для поиска студента
       document.getElementById('fileInput')?.click();
     } else {
-      // Обработка других статусов, например, загрузка списка студентов по статусу
-      fetchStudentsByStatus(status);
+      // Не делаем ничего для первых трех кнопок
+      console.log('Эта кнопка не работает');
     }
   };
 
@@ -222,11 +219,12 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
 
         <input
           type="file"
+          key={Math.random()}
           id="fileInput"
           accept="image/*"
           onChange={handleStudentImage}
           style={{ display: 'none' }}
-          multiple // Разрешаем выбирать несколько файлов
+          multiple
         />
       </div>
 
