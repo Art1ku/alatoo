@@ -10,6 +10,7 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
   const [isMobile, setIsMobile] = useState(false);
   const [modalData, setModalData] = useState<string | null>(null);
   const [studentData, setStudentData] = useState<any | null>(null);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // Массив для выбранных файлов
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -89,53 +90,97 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
   const handleStudentImage = async (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target.files || event.target.files.length === 0) return;
 
-    const file = event.target.files[0];
-    const formData = new FormData();
-    formData.append('photo', file);
+    const files = Array.from(event.target.files);
+    setSelectedFiles((prevFiles) => [...prevFiles, ...files]); // Добавляем выбранные файлы в массив
 
+    // Обрабатываем все файлы по очереди
+    for (const file of files) {
+      const formData = new FormData();
+      formData.append('photo', file);
+
+      try {
+        let accessToken = await getAccessToken();
+
+        if (!accessToken) {
+          alert('Не удалось получить токен. Пожалуйста, войдите снова.');
+          return;
+        }
+
+        const response = await fetch(domain + '/api/v1/student', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+          body: formData,
+        });
+
+        if (!response.ok) {
+          // Попробуем обновить токен и повторить запрос, если он не успешен
+          const newAccessToken = await refreshAccessToken();
+          if (newAccessToken) {
+            const retryResponse = await fetch(domain + '/api/v1/student', {
+              method: 'POST',
+              headers: {
+                Authorization: `Bearer ${newAccessToken}`,
+              },
+              body: formData,
+            });
+            if (retryResponse.ok) {
+              const data = await retryResponse.json();
+              setStudentData(data);
+              setModalData('Информация о студенте');
+            } else {
+              throw new Error('Ошибка загрузки изображения после обновления токена');
+            }
+          }
+        } else {
+          const data = await response.json();
+          setStudentData(data);
+          setModalData('Информация о студенте');
+        }
+      } catch (error) {
+        console.error('Ошибка:', error);
+        alert('Не удалось найти студента');
+      }
+    }
+  };
+
+  const handleMenuClick = (status: string) => {
+    if (status === 'find_student') {
+      // Открыть файловый input для поиска студента
+      document.getElementById('fileInput')?.click();
+    } else {
+      // Обработка других статусов, например, загрузка списка студентов по статусу
+      fetchStudentsByStatus(status);
+    }
+  };
+
+  const fetchStudentsByStatus = async (status: string) => {
     try {
-      let accessToken = await getAccessToken();
+      const accessToken = await getAccessToken();
 
       if (!accessToken) {
         alert('Не удалось получить токен. Пожалуйста, войдите снова.');
         return;
       }
 
-      const response = await fetch(domain + '/api/v1/student', {
-        method: 'POST',
+      const response = await fetch(domain + `/api/v1/students?status=${status}`, {
+        method: 'GET',
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-        body: formData,
       });
 
-      if (!response.ok) {
-        // Попробуем обновить токен и повторить запрос, если он не успешен
-        const newAccessToken = await refreshAccessToken();
-        if (newAccessToken) {
-          const retryResponse = await fetch(domain + '/api/v1/student', {
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${newAccessToken}`,
-            },
-            body: formData,
-          });
-          if (retryResponse.ok) {
-            const data = await retryResponse.json();
-            setStudentData(data);
-            setModalData('Информация о студенте');
-          } else {
-            throw new Error('Ошибка загрузки изображения после обновления токена');
-          }
-        }
-      } else {
+      if (response.ok) {
         const data = await response.json();
         setStudentData(data);
-        setModalData('Информация о студенте');
+        setModalData(`Список студентов по статусу: ${status}`);
+      } else {
+        alert('Ошибка при загрузке студентов');
       }
     } catch (error) {
       console.error('Ошибка:', error);
-      alert('Не удалось найти студента');
+      alert('Не удалось загрузить студентов');
     }
   };
 
@@ -167,13 +212,7 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
               <li
                 key={index}
                 className={classes.navItem}
-                onClick={() => {
-                  onSelect(status);
-                  setIsOpen(false);
-                  if (status === 'find_student') {
-                    document.getElementById('fileInput')?.click();
-                  }
-                }}
+                onClick={() => handleMenuClick(status)} // Обработка клика по каждой кнопке
               >
                 {label}
               </li>
@@ -187,6 +226,7 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
           accept="image/*"
           onChange={handleStudentImage}
           style={{ display: 'none' }}
+          multiple // Разрешаем выбирать несколько файлов
         />
       </div>
 

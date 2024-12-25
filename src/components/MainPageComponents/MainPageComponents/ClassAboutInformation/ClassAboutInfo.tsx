@@ -19,47 +19,6 @@ export default function ClassAboutInfo({ selectedItem, token }: ClassAboutInfoPr
   const [students, setStudents] = useState<Student[]>([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    if (selectedItem) {
-      const fetchStudents = async () => {
-        setLoading(true);
-        try {
-          // Выполняем запрос к API с Bearer токеном в заголовке
-          const response = await fetch(domain + '/api/v1/student/', {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${token}`, // Bearer токен
-              'Content-Type': 'application/json',
-            },
-          });
-
-          if (!response.ok) {
-            const errorText = await response.text(); // Получаем тело ответа при ошибке
-            throw new Error('Ошибка при получении данных');
-          }
-
-          const data = await response.json();
-
-          // Фильтруем студентов в зависимости от selectedItem
-          const filteredStudents =
-            selectedItem === 'all'
-              ? data
-              : data.filter(
-                  (student: Student) => student.validated === (selectedItem === 'validated')
-                );
-
-          setStudents(filteredStudents);
-        } catch (error: any) {
-          setStudents([]);
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      fetchStudents();
-    }
-  }, [selectedItem, token]); // Добавляем токен в зависимость
-
   return (
     <div className={classes.wrapper}>
       <Header />
