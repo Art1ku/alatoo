@@ -11,6 +11,7 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
   const [modalData, setModalData] = useState<string | null>(null);
   const [studentData, setStudentData] = useState<any | null>(null);
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]); // Массив для выбранных файлов
+  const [errorMessage, setErrorMessage] = useState<string | null>(null); // Для отображения ошибки
 
   useEffect(() => {
     const checkScreenSize = () => {
@@ -136,7 +137,7 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
         }
       } catch (error) {
         console.error('Ошибка:', error);
-        alert('Не удалось найти студента');
+        setErrorMessage('Студент не найден');
       }
     }
   };
@@ -179,7 +180,10 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
     }
   };
 
-  const handleModalClose = () => setModalData(null);
+  const handleModalClose = () => {
+    setModalData(null);
+    setErrorMessage(null); // Сбросить ошибку при закрытии
+  };
 
   return (
     <>
@@ -242,6 +246,18 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
             <p>
               <strong>Статус:</strong> {studentData.validated ? 'Потверждён' : 'Не потверждён'}
             </p>
+          </div>
+        </div>
+      )}
+
+      {/* Модальное окно для ошибки */}
+      {errorMessage && (
+        <div className={classes.modalOverlay}>
+          <div className={classes.modal}>
+            <button className={classes.closeButton} onClick={handleModalClose}>
+              ✖
+            </button>
+            <h2>{errorMessage}</h2>
           </div>
         </div>
       )}
