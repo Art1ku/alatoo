@@ -191,24 +191,30 @@ $text-color: #ffffff;          // Белый
 .modal {
   position: fixed;
   top: 50%;
-  left: 50%;
+  left: 56%;
   transform: translate(-50%, -50%);
   background-color: $background-color;
   color: $text-color;
-  padding: 20px;
+  padding: 30px;  // Увеличиваем внутренний отступ
   border-radius: 10px;
   z-index: 100;
+  width: 60%; // Увеличиваем ширину модального окна
+  max-width: 800px; // Устанавливаем максимальную ширину
 
   @media (max-width: 480px) { // Мобильные устройства
-    width: 80%;
-    padding: 15px;
+    width: 90%;
+    padding: 20px;
   }
 }
 
-.modalContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 50;  // Модальное окно выше, чем фон
 }
 
 .closeButton {
@@ -224,4 +230,10 @@ $text-color: #ffffff;          // Белый
   &:hover {
     color: $primary-color;
   }
+}
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }

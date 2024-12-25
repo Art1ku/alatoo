@@ -231,8 +231,8 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
       </div>
 
       {modalData && studentData && (
-        <div className={classes.modalOverlay}>
-          <div className={classes.modal}>
+        <div className={classes.modalOverlay} onClick={handleModalClose}>
+          <div className={classes.modal} onClick={(e) => e.stopPropagation()}>
             <button className={classes.closeButton} onClick={handleModalClose}>
               ✖
             </button>
@@ -252,8 +252,8 @@ export default function MainLeftNav({ onSelect }: { onSelect: (status: string) =
 
       {/* Модальное окно для ошибки */}
       {errorMessage && (
-        <div className={classes.modalOverlay}>
-          <div className={classes.modal}>
+        <div className={classes.modalOverlay} onClick={handleModalClose}>
+          <div className={classes.modal} onClick={(e) => e.stopPropagation()}>
             <button className={classes.closeButton} onClick={handleModalClose}>
               ✖
             </button>
